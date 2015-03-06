@@ -101,24 +101,6 @@ class Ignore(Policy):
 Policy._policies[Ignore.name] = Ignore
 
 
-class Verify(Policy):
-        """This policy verifies that all signatures present are valid but
-        doesn't require that a signature be present."""
-
-        strictness = 2
-        name = "verify"
-
-        def process_signatures(self, sigs, acts, pub, trust_anchors,
-            use_crls):
-                """Check that all signatures present are valid signatures."""
-
-                # Ensure that acts can be iterated over repeatedly.
-                acts = list(acts)
-                for s in sigs:
-                        s.verify_sig(acts, pub, trust_anchors, use_crls)
-
-Policy._policies[Verify.name] = Verify
-
 class RequireSigs(Policy):
         """This policy that all signatures present are valid and insists that
         at least one signature is seen with each package."""
@@ -188,5 +170,5 @@ class RequireNames(Policy):
 
 Policy._policies[RequireNames.name] = RequireNames
 
-DEFAULT_POLICY = "verify"
+DEFAULT_POLICY = "require-signatures"
 
